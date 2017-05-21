@@ -1,0 +1,97 @@
+body {
+  font: 14px sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+    font-size: 28px;
+    margin: 0 0 12px 0;
+}
+
+label span {
+    margin-bottom: 8px;
+    display: block;
+    font-size: 18px;
+}
+
+section {
+    padding: 12px;
+    border: solid 1px silver;
+    margin: 20px auto;
+    background-color: #ebebeb;
+    border-radius: 2px;
+    display: inline-block;
+    width: 100%;
+}
+
+.search input {
+  font-size: 14px;
+  vertical-align: top;
+  padding: 10px 6px;
+  width: 100%;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.search input:hover {
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.search input:focus {
+    outline: 0;
+}
+
+.user-info img {
+  border-radius: 2px;
+  margin: 0 20px 20px 0;
+  max-height: 120px;
+}
+
+.repos-info li {
+  padding: 6px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.actions,
+.repos {
+  float: left;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions button {
+  font-size: 12px;
+  font-weight: 700;
+  height: 40px;
+  text-transform: uppercase;
+  width: 48%;
+  cursor: pointer;
+  background-color: #ebebeb;
+  border: 1px solid silver;
+  border-radius: 2px;
+  transition: 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.actions button:hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+.repos li {
+  padding: 10px 0;
+}
+
+.repos li + li {
+  border-top: 1px solid #ccc;
+}
