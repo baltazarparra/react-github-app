@@ -1,39 +1,57 @@
 import React, { Component } from 'react';
-import Search from './components/search';
-import UserInfo from './components/user-info';
-import Actions from './components/actions';
-import Repos from './components/repos';
+import AppContent from './components/app-content';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <main className='container App'>
-      
-          <Search />
-          <UserInfo />
-          <Actions />
-          <Repos 
-            className='repos'
-            title='Repositórios'
-            repos={[{
-                name: 'Nome do repositório',
-                link: 'http://github.com/users/baltazarparra'
-            }]}
-          />
-          
-          <Repos 
-            className='repos'
-            title='Favoritos'
-            repos={[{
-                name: 'Nome do repositório',
-                link: 'http://github.com/users/baltazarparra'
-            }]}
-          />
+    constructor () {
+        super()
+        this.state = {
+            userinfo: null,
+            repos: [],
+            starred: []
+        }
+    }
 
-      </main>
-    );
-  }
+    handleSearch (e) {
+        const value = e.target.value;
+        const keyCode = e.which || e.keyCode;
+        const ENTER = 13;
+        if (keyCode === ENTER) {
+            var ajax = new XMLHttpRequest();
+            ajax.open('GET', `https://api.github.com/users/${value}`);
+            ajax.send();
+            ajax.addEventListener('readystatechange', function() {
+              if(isRequestOk() ) {
+                try {
+                  var user = JSON.parse(ajax.responseText);
+                  this.setState({
+                      userinfo: {
+                          username: user.name,
+                          photo: user.avatar_url,
+                          login: user.login,
+                          repos: user.public_repos,
+                          followers: user.followers,
+                          following: user.following
+                      }
+                  })
+                } catch(e) {
+                  console.log(e);
+                }
+              }
+            }.bind(this));
+            function isRequestOk() {
+              return ajax.readyState === 4 && ajax.status === 200;
+            }
+        }
+    }
+    
+    render() {
+    return <AppContent 
+            userinfo={this.state.userinfo}
+            repos={this.state.repos}
+            starred={this.state.starred}
+            handleSearch={(e) => this.handleSearch(e)}/>
+    }
 }
 
 export default App;
