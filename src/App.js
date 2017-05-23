@@ -45,12 +45,37 @@ class App extends Component {
         }
     }
     
+    handleClick () {
+        var ajax = new XMLHttpRequest();
+        ajax.open('GET', 'https://api.github.com/users/baltazarparra/repos');
+        ajax.send();
+        ajax.addEventListener('readystatechange', function() {
+          if(isRequestOk() ) {
+            try {
+              var repositories = JSON.parse(ajax.responseText);
+              this.setState({
+                  repos: [{
+                      name: repositories[0].name,
+                      link: repositories[0].html_url
+                  }]
+              })
+            } catch(e) {
+              console.log(e);
+            }
+          }
+      }.bind(this));
+        function isRequestOk() {
+          return ajax.readyState === 4 && ajax.status === 200;
+        }
+    }
+        
     render() {
     return <AppContent 
             userinfo={this.state.userinfo}
             repos={this.state.repos}
             starred={this.state.starred}
-            handleSearch={(e) => this.handleSearch(e)}/>
+            handleSearch={(e) => this.handleSearch(e)}
+            handleClick={(e) => this.handleClick('repos')}/>
     }
 }
 

@@ -5,12 +5,12 @@ import Actions from './actions';
 import Repos from './repos';
 import PropTypes from 'prop-types';
 
-const AppContent = ({ userinfo, repos, starred, handleSearch }) => (
+const AppContent = ({ userinfo, repos, starred, handleSearch, handleClick }) => (
     <main className='container App'>
     
         <Search handleSearch={handleSearch}/>
         {!!userinfo && <UserInfo userinfo={userinfo} />}
-        {!!userinfo && <Actions />}
+        {!!userinfo && <Actions handleClick={handleClick}/>}
         
         {!!repos.length &&
             <Repos 
