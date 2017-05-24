@@ -45,19 +45,22 @@ class App extends Component {
         }
     }
     
-    handleClick () {
+    handleClick (type) {
         var ajax = new XMLHttpRequest();
-        ajax.open('GET', 'https://api.github.com/users/baltazarparra/repos');
+        ajax.open('GET', `https://api.github.com/users/baltazarparra/${type}`);
         ajax.send();
         ajax.addEventListener('readystatechange', function() {
           if(isRequestOk() ) {
             try {
               var repositories = JSON.parse(ajax.responseText);
-              this.setState({
-                  repos: [{
-                      name: repositories[0].name,
-                      link: repositories[0].html_url
-                  }]
+              this.setState({ 
+                  repos:
+                      repositories.map((item) => {
+                          return {
+                              name: item.name,
+                              link: item.html_url
+                          }
+                      })
               })
             } catch(e) {
               console.log(e);
