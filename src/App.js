@@ -32,7 +32,9 @@ class App extends Component {
                           repos: user.public_repos,
                           followers: user.followers,
                           following: user.following
-                      }
+                      },
+                      repos: [],
+                      starred: []
                   })
                 } catch(e) {
                   console.log(e);
@@ -47,14 +49,14 @@ class App extends Component {
     
     handleClick (type) {
         var ajax = new XMLHttpRequest();
-        ajax.open('GET', `https://api.github.com/users/baltazarparra/${type}`);
+        ajax.open('GET', `https://api.github.com/users/${this.state.userinfo.login}/${type}`);
         ajax.send();
         ajax.addEventListener('readystatechange', function() {
           if(isRequestOk() ) {
             try {
               var repositories = JSON.parse(ajax.responseText);
               this.setState({ 
-                  repos:
+                  [type]:
                       repositories.map((item) => {
                           return {
                               name: item.name,
