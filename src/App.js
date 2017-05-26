@@ -48,29 +48,31 @@ class App extends Component {
     }
     
     handleClick (type) {
-        var ajax = new XMLHttpRequest();
-        ajax.open('GET', `https://api.github.com/users/${this.state.userinfo.login}/${type}`);
-        ajax.send();
-        ajax.addEventListener('readystatechange', function() {
-          if(isRequestOk() ) {
-            try {
-              var repositories = JSON.parse(ajax.responseText);
-              this.setState({ 
-                  [type]:
-                      repositories.map((item) => {
-                          return {
-                              name: item.name,
-                              link: item.html_url
-                          }
-                      })
-              })
-            } catch(e) {
-              console.log(e);
+        return (e) => {
+            var ajax = new XMLHttpRequest();
+            ajax.open('GET', `https://api.github.com/users/${this.state.userinfo.login}/${type}`);
+            ajax.send();
+            ajax.addEventListener('readystatechange', function() {
+                if(isRequestOk() ) {
+                    try {
+                        var repositories = JSON.parse(ajax.responseText);
+                        this.setState({ 
+                            [type]:
+                            repositories.map((item) => {
+                                return {
+                                    name: item.name,
+                                    link: item.html_url
+                                }
+                            })
+                        })
+                    } catch(e) {
+                        console.log(e);
+                    }
+                }
+            }.bind(this));
+            function isRequestOk() {
+                return ajax.readyState === 4 && ajax.status === 200;
             }
-          }
-      }.bind(this));
-        function isRequestOk() {
-          return ajax.readyState === 4 && ajax.status === 200;
         }
     }
         
@@ -80,7 +82,8 @@ class App extends Component {
             repos={this.state.repos}
             starred={this.state.starred}
             handleSearch={(e) => this.handleSearch(e)}
-            handleClick={(e) => this.handleClick('repos')}/>
+            getRepos={this.handleClick('repos')}
+            getStarred={this.handleClick('starred')}/>
     }
 }
 

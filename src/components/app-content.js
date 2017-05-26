@@ -5,12 +5,12 @@ import Actions from './actions';
 import Repos from './repos';
 import PropTypes from 'prop-types';
 
-const AppContent = ({ userinfo, repos, starred, handleSearch, handleClick }) => (
+const AppContent = ({ userinfo, repos, starred, handleSearch, getRepos, getStarred }) => (
     <main className='container App'>
     
         <Search handleSearch={handleSearch}/>
         {!!userinfo && <UserInfo userinfo={userinfo} />}
-        {!!userinfo && <Actions handleClick={handleClick}/>}
+        {!!userinfo && <Actions getRepos={getRepos} getStarred={getStarred}/>}
         
         {!!repos.length &&
             <Repos 
@@ -20,7 +20,7 @@ const AppContent = ({ userinfo, repos, starred, handleSearch, handleClick }) => 
             />
         }
         
-        {!!repos.length &&
+        {!!starred.length &&
             <Repos 
               className='repos'
               title='Favoritos'
@@ -34,7 +34,9 @@ const AppContent = ({ userinfo, repos, starred, handleSearch, handleClick }) => 
 AppContent.propTypes = {
     userinfo: PropTypes.object,
     repos: PropTypes.array.isRequired,
-    starred: PropTypes.array.isRequired
+    starred: PropTypes.array.isRequired,
+    getRepos: PropTypes.func.isRequired,
+    getStarred: PropTypes.func.isRequired
 }
 
 export default AppContent
