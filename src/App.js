@@ -8,7 +8,8 @@ class App extends Component {
         this.state = {
             userinfo: null,
             repos: [],
-            starred: []
+            starred: [],
+            isFetching: false
         }
     }
 
@@ -16,7 +17,9 @@ class App extends Component {
         const value = e.target.value;
         const keyCode = e.which || e.keyCode;
         const ENTER = 13;
+
         if (keyCode === ENTER) {
+            this.setState({isFetching: true})
             var ajax = new XMLHttpRequest();
             ajax.open('GET', `https://api.github.com/users/${value}`);
             ajax.send();
@@ -36,8 +39,10 @@ class App extends Component {
                       repos: [],
                       starred: []
                   })
+                  this.setState({isFetching: false})
                 } catch(e) {
                   console.log(e);
+                  this.setState({isFetching: false})
                 }
               }
             }.bind(this));
@@ -81,6 +86,7 @@ class App extends Component {
             userinfo={this.state.userinfo}
             repos={this.state.repos}
             starred={this.state.starred}
+            isFetching={this.state.isFetching}
             handleSearch={(e) => this.handleSearch(e)}
             getRepos={this.handleClick('repos')}
             getStarred={this.handleClick('starred')}/>
